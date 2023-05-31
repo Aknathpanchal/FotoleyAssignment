@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import playIcon from './assets/play.png';
-
+import { Box, Grid, IconButton,Stack,Button } from '@mui/material';
 import play from './assets/play1.png';
 import pause from './assets/pause.png';
-import './App.css';
-
+import playIcon from './assets/play.png';
+import Typography from '@mui/material/Typography';
 
 function App() {
   const images = [
@@ -58,62 +57,71 @@ function App() {
     setToggleCarousel(!toggleCarousel);
   };
 
-
-  return (
-    <>
-      <div className="p-4">
-      
-        <div className="flex flex-col lg:flex-row gap-2 justify-between items-center lg:pt-4">
-        <div className="w-full lg:w-[50%] border border-red-500">
-  <img alt="img" src={images[currentImgIndex].url} className="w-full h-auto" />
-</div>
-
+    return (
+      <>
+        <Box p={4}>
+          <Box display="flex" flexDirection={{ xs: 'column', lg: 'row' }} gap={2} justifyContent="space-between" alignItems="center" pt={{ lg: 4 }}>
+            <Box sx={{ width: { xs: '100%', lg: '50%' }, border: '1px solid red' }}>
+              <img alt="img" src={images[currentImgIndex].url} style={{ width: '100%', height: 'auto' }} />
+            </Box>
   
-          <div className="flex flex-col justify-center lg:w-[50%]">
-          <h1 className="font-bold text-3xl text-left text-gray-700 opacity-100 leading-8">
-  {images[currentImgIndex].heading}
-</h1>
-
-            <p className="text-base leading-6 text-left font-normal tracking-normal text-gray-400 opacity-100">
-  {images[currentImgIndex].desc}
-</p>
-
-          </div>
-        </div>
+            <Box sx={{ width: { xs: '100%', lg: '50%' }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'gray.700', opacity: 1, textAlign: 'left', mb: 2 }}>
+                {images[currentImgIndex].heading}
+              </Typography>
   
-        <div className="mt-4 shree">
-          <div className="flex justify-center items-center">
-            <div className="relative flex-shrink-0 w-[50%]">
-
-            <img alt="img" src={playIcon} className="rotate-180 w-8 md:w-12 xl:w-16 absolute left-8 top-1/2 transform -translate-y-1/2" onClick={handlePrev} />
-
-              <div className="flex flex-row justify-center gap-4 w-full">
-                {images.map((eachEle, index) => (
-                  <img
-                    alt={eachEle.heading}
-                    src={eachEle.url}
-                    className={`w-12 md:w-16 xl:w-20 ${index === currentImgIndex ? 'border-4 border-blue-400' : 'grayscale'}`}
-                    key={index}
-                    onClick={() => setCurrentImgIndex(index)}
-                  />
-                ))}
-              </div>
+              <Typography variant="body1" sx={{ color: 'gray.400', opacity: 1, textAlign: 'left' }}>
+                {images[currentImgIndex].desc}
+              </Typography>
+            </Box>
+          </Box>
   
-              <img alt="img" src={playIcon} className="w-8 md:w-12 xl:w-16 absolute right-8 top-1/2 transform -translate-y-1/2" onClick={handleNext} />
-             
-            </div>
-            <div className="w-[50%] flex justify-center">
-              <button  onClick={startCarousel}>
-                {toggleCarousel ? <img alt="img" src={pause} /> :  <img alt="img" src={play} />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+          <Box mt={4}>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Box sx={{ position: 'relative', width: '50%' }}>
+                <img
+                  alt="img"
+                  src={playIcon}
+                  style={{ transform: 'rotate(180deg)', width: 8, mdWidth: 12, xlWidth: 16, position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}
+                  onClick={handlePrev}
+                />
   
-
+                <Stack direction="row" gap={4} sx={{ width: '100%' }}>
+                  {images.map((eachEle, index) => (
+                    <img
+                      alt={eachEle.heading}
+                      src={eachEle.url}
+                      style={{
+                        width: 100,
+                        mdWidth: 16,
+                        xlWidth: 20,
+                        border: index === currentImgIndex ? '4px solid blue' : 'none',
+                        filter: index === currentImgIndex ? 'none' : 'grayscale(100%)',
+                      }}
+                      key={index}
+                      onClick={() => setCurrentImgIndex(index)}
+                    />
+                  ))}
+                </Stack>
+  
+                <img
+                  alt="img"
+                  src={playIcon}
+                  style={{ width: 8, mdWidth: 12, xlWidth: 16, position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)' }}
+                  onClick={handleNext}
+                />
+              </Box>
+  
+              <Box sx={{ width: '50%', display: 'flex', justifyContent: 'center' }}>
+                <Button onClick={startCarousel}>
+                  {toggleCarousel ? <img alt="img" src={pause} /> : <img alt="img" src={play} />}
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </>
+    );
 }
 
 export default App;
